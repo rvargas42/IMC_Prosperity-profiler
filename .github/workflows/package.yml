@@ -6,7 +6,6 @@ jobs:
   build:
     name: Build distribution 📦
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
       with:
@@ -56,13 +55,11 @@ jobs:
       Sign the Python 🐍 distribution 📦 with Sigstore
       and upload them to GitHub Release
     needs:
-    - publish-to-pypi
+      - publish-to-pypi
     runs-on: ubuntu-latest
-
     permissions:
       contents: write  # IMPORTANT: mandatory for making GitHub Releases
       id-token: write  # IMPORTANT: mandatory for sigstore
-
     steps:
     - name: Download all the dists
       uses: actions/download-artifact@v4
@@ -99,14 +96,11 @@ jobs:
     needs:
     - build
     runs-on: ubuntu-latest
-
     environment:
       name: testpypi
       url: https://test.pypi.org/p/imc-prosperity-profiler
-
     permissions:
       id-token: write  # IMPORTANT: mandatory for trusted publishing
-
     steps:
     - name: Download all the dists
       uses: actions/download-artifact@v4
