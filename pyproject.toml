@@ -26,6 +26,7 @@ version = "0.0.2"
 
 [tool.setuptools.packages.find]
 include = ["profiler", "profiler.*"]
+namespaces = false
 
 [project.urls]
 Homepage = "https://github.com/rvargas42/IMC_Prosperity-profiler"
