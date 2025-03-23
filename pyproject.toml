@@ -1,5 +1,5 @@
 [project]
-name = "imc-prosperity-profiler"
+name = "IMC_Prosperity-profiler"
 version = "0.0.1"
 authors = [
   { name="r4v4rg4s", email="ravargas.42t@gmail.com" },

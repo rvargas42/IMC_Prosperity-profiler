@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/p/imc-prosperity-profiler
+      url: https://pypi.org/p/IMC_Prosperity-profiler
     permissions:
       id-token: write
     steps:
