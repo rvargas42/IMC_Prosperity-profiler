@@ -1,6 +1,6 @@
 [project]
 name = "IMC_Prosperity-profiler"
-version = "0.0.3"
+version = "0.0.4"
 authors = [
   { name="r4v4rg4s", email="ravargas.42t@gmail.com" },
 ]
@@ -19,11 +19,6 @@ dependencies = [
     "pandas>=2.0.3",
     "snakeviz>=2.2.1",
 ]
-
-[tool.poetry]
-name = "IMC-Prosperity-profiler"
-version = "0.0.3"
-
 [tool.setuptools.packages.find]
 include = ["profiler", "profiler.*"]
 namespaces = false

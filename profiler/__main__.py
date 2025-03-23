@@ -1,4 +1,4 @@
-from datamodel import TradingState, Observation, Listing, OrderDepth, Trade
+from profiler.datamodel import TradingState, Observation, Listing, OrderDepth, Trade
 import importlib.util as iu
 from cProfile import Profile, run
 import sys, os, pstats, io
