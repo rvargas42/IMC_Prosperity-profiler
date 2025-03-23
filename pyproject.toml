@@ -22,7 +22,7 @@ dependencies = [
 
 [tool.poetry]
 name = "IMC-Prosperity-profiler"
-version = "0.0.2"
+version = "0.0.3"
 
 [tool.setuptools.packages.find]
 include = ["profiler", "profiler.*"]
