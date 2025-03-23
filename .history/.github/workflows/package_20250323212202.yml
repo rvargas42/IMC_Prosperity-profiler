@@ -29,5 +29,8 @@ jobs:
         uv build
 
     - name: Publish package
+      env:
+        TWINE_USERNAME: "__token__"
+        TWINE_PASSWORD: ${{ secrets.API_TOKEN }}
       run: |
         uv publish
