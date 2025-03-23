@@ -1,6 +1,9 @@
 name: Upload Python Package to PyPI when a Release is Created
 
 on:
+  push:
+    - branches:
+        - main
   release:
     types: [created]
 
@@ -25,6 +28,6 @@ jobs:
           pip install uv
       - name: Build package
         run: |
-          uv build  # Could also be python -m build
+          uv build
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
