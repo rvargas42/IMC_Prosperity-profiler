@@ -1,0 +1,33 @@
+[project]
+name = "imc-prosperity-profiler"
+version = "0.0.1"
+authors = [
+  { name="r4v4rg4s", email="ravargas.42t@gmail.com" },
+]
+description = "A small example package"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+dependencies = [
+    "jsonpickle>=4.0.2",
+    "numpy>=2.2.3",
+    "pandas>=2.2.3",
+    "snakeviz>=2.2.2",
+]
+
+[project.urls]
+Homepage = "https://github.com/rvargas42/prosperity-profiler"
+Issues = "https://github.com/rvargas42/prosperity-profiler/issues"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project.scripts]
+prosperityprofiler = "profiler.__main__:main"
+
