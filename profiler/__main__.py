@@ -1,22 +1,17 @@
 from profiler.datamodel import TradingState, Observation, Listing, OrderDepth, Trade
+from pathlib import Path
+from importlib import import_module, metadata, reload
 import importlib.util as iu
-from cProfile import Profile, run
-import sys, os, pstats, io
+from cProfile import Profile, runctx
+import sys, os, pstats, io, subprocess
 
-def load_trader_class(file_path):
-    '''
-    returns the Trader object from a given file
-    '''
-    if not os.path.exists(file_path):
-        raise FileNotFoundError(f"File not found: {file_path}")
-    module_name = os.path.splitext(os.path.basename(file_path))[0]
-    spec = iu.spec_from_file_location(module_name, file_path)
-    module = iu.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    if not hasattr(module, "Trader"):
-        raise AttributeError(f"Trader class not found in {file_path}")
-    else:
-        return getattr(module, "Trader")
+def load_trader_class(algorithm: str):
+    algorithm_path = Path(algorithm).expanduser().resolve()
+    if not algorithm_path.is_file():
+        raise ModuleNotFoundError(f"{algorithm_path} is not a file")
+
+    sys.path.append(str(algorithm_path.parent))
+    return import_module(algorithm_path.stem)
 
 def create_fake_state():
     fake_state = TradingState(
@@ -52,20 +47,33 @@ def create_fake_state():
 
 def main():
     file_path = sys.argv[1]
-    trader_class = load_trader_class(file_path)
-    trader_class_instance = trader_class()
-    
+    trader_instance = load_trader_class(file_path).Trader()
     fake_state = create_fake_state()
 
-    #generate prof file for visualizations with snakeviz (pip install snakeviz)
-    run("trader_class_instance.run(fake_state)", "prof.prof")
-    #generate prof stats
+    # Define a known directory for the profiling file
+    profile_dir = Path("./profiles")
+    profile_dir.mkdir(exist_ok=True)  # Create if it doesn’t exist
+
+    prof_file = profile_dir / "prof.prof"
+
+    # Generate profiling file for SnakeViz
+    runctx("trader_instance.run(fake_state)", globals(), locals(), filename=str(prof_file))
+
+    # Generate profiling stats
     profiler = Profile()
     profiler.enable()
-    trader_class_instance.run(fake_state)
+    trader_instance.run(fake_state)
     profiler.disable()
+
     s = io.StringIO()
     sortby = pstats.SortKey.CUMULATIVE
     ps = pstats.Stats(profiler, stream=s).sort_stats(sortby)
     ps.print_stats()
     print(s.getvalue())
+
+    # Run SnakeViz automatically
+    print(f"\nOpening SnakeViz for {prof_file}...\n")
+    subprocess.run(["snakeviz", str(prof_file)])  # Launch SnakeViz visualization
+
+if __name__ == "__main__":
+    main()
